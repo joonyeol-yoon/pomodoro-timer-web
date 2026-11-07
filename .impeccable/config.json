@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-11-06T09:33:09.491Z",
+        "reason": "Claude triage: flagged .tomato has only absolutely positioned children; the text sits in the centered .dial, about 19px inside the hub at 1280px per screenshot"
+      }
+    ]
+  }
+}

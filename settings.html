@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Setting - Pomodoro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=IBM+Plex+Sans+KR:wght@500;600&display=swap"
+    />
+    <link rel="stylesheet" href="settings.css" />
+    <script src="timer-settings.js" defer></script>
+    <script src="settings.js" defer></script>
+  </head>
+  <body>
+    <main class="page">
+      <h3 class="title">Setting</h3>
+
+      <form id="settings-form" class="field">
+        <label class="field-label" for="timer-minutes">타이머 시간</label>
+        <div class="field-input">
+          <input
+            id="timer-minutes"
+            class="minutes"
+            type="number"
+            inputmode="numeric"
+            min="1"
+            max="60"
+            step="1"
+            value="25"
+            required
+          />
+          <span class="unit">분</span>
+        </div>
+        <button id="save-button" class="save" type="submit">저장</button>
+      </form>
+
+      <a class="back" href="index.html">메인으로 돌아가기</a>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,162 @@
+:root {
+  --celadon: #e1ecd9;
+  --tomato-deep: #a82012;
+  --leaf: #2c6a3a;
+  --leaf-deep: #1f4f2a;
+  --paper: #fffaf0;
+  --ink: #1d3022;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+body {
+  min-height: 100svh;
+  background: var(--celadon);
+  color: var(--ink);
+  font-family: "IBM Plex Sans KR", system-ui, sans-serif;
+}
+
+/* 메인 페이지와 같은 틀: 제목은 왼쪽 위, 내용은 가운데, 버튼은 아래 */
+.page {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 16px;
+  max-width: 720px;
+  min-height: 100svh;
+  margin-inline: auto;
+  padding: 20px 16px 32px;
+}
+
+.title {
+  min-height: 44px;
+  font-family: "Bagel Fat One", system-ui, sans-serif;
+  font-size: clamp(2rem, 7vw, 2.75rem);
+  font-weight: 400;
+  line-height: 1;
+  color: var(--tomato-deep);
+}
+
+.field {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 16px;
+}
+
+.field-label {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+/* 단위를 흐름에서 빼서 입력칸이 라벨과 같은 축에 놓이게 한다. */
+.field-input {
+  position: relative;
+}
+
+.minutes {
+  display: block;
+  width: 2.4em;
+  /* 왼쪽 23px = 오른쪽 8px + 증감 화살표 자리 15px. 숫자를 칸 중앙에 맞춘다. */
+  padding: 12px 8px 12px 23px;
+  border: 2px solid var(--leaf);
+  border-radius: 24px;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Bagel Fat One", system-ui, sans-serif;
+  font-size: clamp(3.5rem, 16vw, 5.5rem);
+  line-height: 1;
+  text-align: center;
+}
+
+.unit {
+  position: absolute;
+  top: 50%;
+  left: calc(100% + 12px);
+  transform: translateY(-50%);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.minutes:invalid {
+  border-color: var(--tomato-deep);
+}
+
+.save {
+  min-width: 124px;
+  min-height: 52px;
+  padding: 0 24px;
+  border: 2px solid var(--leaf);
+  border-radius: 999px;
+  background: var(--leaf);
+  color: var(--paper);
+  font: inherit;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 120ms ease,
+    transform 80ms ease;
+}
+
+.save:hover:enabled {
+  border-color: var(--leaf-deep);
+  background: var(--leaf-deep);
+}
+
+.save:active:enabled {
+  transform: translateY(2px);
+}
+
+.save:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.back {
+  justify-self: center;
+  display: inline-flex;
+  align-items: center;
+  min-height: 52px;
+  padding: 0 24px;
+  border: 2px solid var(--leaf);
+  border-radius: 999px;
+  color: var(--leaf-deep);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    background-color 120ms ease,
+    color 120ms ease,
+    transform 80ms ease;
+}
+
+.back:hover {
+  background: var(--leaf);
+  color: var(--paper);
+}
+
+.back:active {
+  transform: translateY(2px);
+}
+
+.minutes:focus-visible,
+.save:focus-visible,
+.back:focus-visible {
+  outline: 3px solid var(--tomato-deep);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .save,
+  .back {
+    transition: none;
+  }
+
+  .save:active:enabled,
+  .back:active {
+    transform: none;
+  }
+}
