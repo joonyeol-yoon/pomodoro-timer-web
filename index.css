@@ -1,17 +1,21 @@
 :root {
-  --celadon: #e1ecd9;
-  --tomato: #d8321f;
-  --tomato-deep: #a82012;
-  --leaf: #2c6a3a;
-  --leaf-deep: #1f4f2a;
-  --paper: #fffaf0;
-  --ink: #1d3022;
-  --wedge: #f6b5a6;
+  color-scheme: dark;
 
-  /* 남은 분(分). 다이얼의 빨간 영역이 이 값을 따라 줄어든다. */
-  --minutes-left: 25;
+  --espresso: #1f130b;
+  --flap-top: #42291a;
+  --flap-bottom: #372215;
+  --hinge: #140b06;
+  --butter: #ffefa8;
+  --butter-soft: #d9c084;
+  --line: rgba(255, 239, 168, 0.32);
 
-  --size: min(78vw, 56svh, 440px);
+  --glow-soft: 0 0 4px rgba(255, 226, 130, 0.45), 0 0 16px rgba(255, 205, 90, 0.2);
+  --glow-full: 0 0 4px rgba(255, 235, 160, 0.9), 0 0 14px rgba(255, 220, 120, 0.65),
+    0 0 36px rgba(255, 200, 80, 0.4);
+
+  /* 카드 4장, 콜론, 간격이 합쳐 카드 폭의 4.5배를 넘지 않는다. */
+  --card-w: min(calc((100vw - 32px) / 4.5), 29svh, 168px);
+  --card-h: calc(var(--card-w) * 1.38);
 }
 
 * {
@@ -21,139 +25,239 @@
 
 body {
   min-height: 100svh;
-  background: var(--celadon);
-  color: var(--ink);
+  background:
+    radial-gradient(60% 45% at 50% 48%, rgba(255, 205, 110, 0.09), transparent 100%),
+    var(--espresso);
+  color: var(--butter);
   font-family: "IBM Plex Sans KR", system-ui, sans-serif;
 }
 
 .page {
   display: grid;
   grid-template-columns: 1fr auto;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto 1fr auto auto 1fr;
   align-items: center;
   gap: 16px;
-  max-width: 720px;
+  max-width: 880px;
   min-height: 100svh;
   margin-inline: auto;
   padding: 20px 16px 32px;
 }
 
+/* 네온 간판: 페이지를 열 때 한 번만 깜빡이며 켜진다. */
 .title {
-  font-family: "Bagel Fat One", system-ui, sans-serif;
+  font-family: "Tilt Neon", "IBM Plex Sans KR", sans-serif;
   font-size: clamp(2rem, 7vw, 2.75rem);
   font-weight: 400;
   line-height: 1;
-  color: var(--tomato-deep);
+  text-shadow: var(--glow-full);
+  animation: sign-on 900ms linear both;
 }
 
-/* 토마토 본체 */
-.tomato {
-  position: relative;
-  grid-column: 1 / -1;
-  grid-row: 2;
-  justify-self: center;
-  width: var(--size);
-  height: calc(var(--size) * 0.94);
-  margin-top: calc(var(--size) * 0.1);
-  border-radius: 50% 50% 50% 50% / 46% 46% 54% 54%;
-  background: var(--tomato);
-  box-shadow: inset 0 calc(var(--size) * -0.025) 0 var(--tomato-deep);
+@keyframes sign-on {
+  0%,
+  18%,
+  34% {
+    opacity: 0.25;
+  }
+  12%,
+  26%,
+  100% {
+    opacity: 1;
+  }
 }
 
-.calyx {
-  position: absolute;
-  top: calc(var(--size) * -0.13);
-  left: 50%;
-  width: 40%;
-  transform: translateX(-50%);
-  fill: var(--leaf);
-}
-
-/* 다이얼: 토마토 위에 놓인 타이머 눈금판 */
-.dial {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  display: grid;
-  place-items: center;
-  width: 74%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: var(--paper);
-  transform: translate(-50%, -48%);
-}
-
-/* 남은 시간만큼 채워지는 부채꼴 */
-.dial::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: conic-gradient(
-    var(--wedge) 0 calc(var(--minutes-left) * 6deg),
-    transparent 0
-  );
-}
-
-/* 1분, 5분 눈금 */
-.dial::after {
-  content: "";
-  position: absolute;
-  inset: 3%;
-  border-radius: 50%;
-  background:
-    repeating-conic-gradient(from -0.5deg, var(--ink) 0 1deg, transparent 0 30deg),
-    repeating-conic-gradient(from -0.2deg, var(--ink) 0 0.4deg, transparent 0 6deg);
-  -webkit-mask: radial-gradient(closest-side, transparent 90%, #000 90.5%);
-  mask: radial-gradient(closest-side, transparent 90%, #000 90.5%);
-}
-
+/* 플립 보드 */
 .time {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 76%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: var(--paper);
-  font-family: "Bagel Fat One", system-ui, sans-serif;
-  font-size: calc(var(--size) * 0.16);
+  grid-column: 1 / -1;
+  grid-row: 3;
+  justify-self: center;
+  font-family: "Big Shoulders Display", "IBM Plex Sans KR", sans-serif;
+  font-size: calc(var(--card-h) * 0.86);
+  font-weight: 800;
   line-height: 1;
 }
 
-.time-digit {
-  width: 0.66em;
-  text-align: center;
+.flip-board {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--card-w) * 0.08);
+}
+
+.flip-card {
+  position: relative;
+  display: block;
+  width: var(--card-w);
+  height: var(--card-h);
+  border-radius: 10px;
+  box-shadow:
+    0 0 0 1px rgba(255, 239, 168, 0.14),
+    0 14px 32px rgba(0, 0, 0, 0.45);
+  perspective: calc(var(--card-h) * 6);
+  text-shadow: var(--glow-soft);
+}
+
+.is-running .flip-card {
+  text-shadow: var(--glow-full);
+}
+
+/* 경첩: 가운데 틈과 양옆의 핀 */
+.flip-card::before,
+.flip-card::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.flip-card::before {
+  left: 0;
+  right: 0;
+  height: 2px;
+  margin-top: -1px;
+  background: var(--hinge);
+}
+
+.flip-card::after {
+  left: -1px;
+  right: -1px;
+  height: calc(var(--card-w) * 0.14);
+  transform: translateY(-50%);
+  background:
+    linear-gradient(var(--butter-soft), var(--butter-soft)) left / 4px 100% no-repeat,
+    linear-gradient(var(--butter-soft), var(--butter-soft)) right / 4px 100% no-repeat;
+  border-radius: 2px;
+}
+
+.half {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: block;
+  height: 50%;
+  overflow: hidden;
+  backface-visibility: hidden;
+}
+
+.half-top {
+  top: 0;
+  border-radius: 10px 10px 0 0;
+  background: var(--flap-top);
+  transform-origin: bottom;
+}
+
+.half-bottom {
+  bottom: 0;
+  border-radius: 0 0 10px 10px;
+  background: var(--flap-bottom);
+  transform-origin: top;
+}
+
+.flip-digit {
+  position: absolute;
+  left: 0;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 200%;
+}
+
+.half-top .flip-digit {
+  top: 0;
+}
+
+.half-bottom .flip-digit {
+  bottom: 0;
+}
+
+.flap {
+  z-index: 2;
+  visibility: hidden;
+}
+
+.is-flipping .flap {
+  visibility: visible;
+}
+
+.is-flipping .flap-top {
+  animation: fold-top 280ms ease-in both;
+}
+
+.is-flipping .flap-bottom {
+  animation: fold-bottom 280ms 280ms ease-out both;
+}
+
+@keyframes fold-top {
+  to {
+    transform: rotateX(-90deg);
+    filter: brightness(0.55);
+  }
+}
+
+@keyframes fold-bottom {
+  from {
+    transform: rotateX(90deg);
+    filter: brightness(0.55);
+  }
 }
 
 .time-colon {
-  width: 0.36em;
-  text-align: center;
+  position: relative;
+  display: block;
+  flex: none;
+  width: calc(var(--card-w) * 0.2);
+  height: calc(var(--card-h) * 0.34);
 }
 
-/* 버튼 */
+.time-colon::before,
+.time-colon::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  width: calc(var(--card-w) * 0.09);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--butter);
+  box-shadow: var(--glow-soft);
+  transform: translateX(-50%);
+}
+
+.time-colon::before {
+  top: 0;
+}
+
+.time-colon::after {
+  bottom: 0;
+}
+
+.is-running .time-colon::before,
+.is-running .time-colon::after {
+  box-shadow: var(--glow-full);
+}
+
+/* 버튼: 꺼진 네온관, 주 버튼만 켜 둔다. */
 .controls {
   grid-column: 1 / -1;
-  grid-row: 3;
+  grid-row: 4;
   display: flex;
   justify-content: center;
   gap: 10px;
+  margin-top: 16px;
 }
 
 .button,
 .settings {
-  border: 2px solid var(--leaf);
+  border: 1.5px solid var(--line);
   border-radius: 999px;
   background: transparent;
-  color: var(--leaf-deep);
+  color: var(--butter);
   font: inherit;
   font-weight: 600;
   cursor: pointer;
   transition:
-    background-color 120ms ease,
-    color 120ms ease,
+    border-color 120ms ease,
+    box-shadow 120ms ease,
     transform 80ms ease;
 }
 
@@ -166,8 +270,10 @@ body {
 
 .button-primary {
   min-width: 124px;
-  background: var(--leaf);
-  color: var(--paper);
+  border-color: var(--butter);
+  background: var(--butter);
+  color: var(--espresso);
+  box-shadow: var(--glow-soft);
 }
 
 .settings {
@@ -179,6 +285,7 @@ body {
   min-height: 44px;
   padding: 0 14px 0 10px;
   border-color: transparent;
+  color: var(--butter-soft);
 }
 
 .settings svg {
@@ -192,13 +299,8 @@ body {
 
 .button:hover,
 .settings:hover {
-  background: var(--leaf);
-  color: var(--paper);
-}
-
-.button-primary:hover {
-  border-color: var(--leaf-deep);
-  background: var(--leaf-deep);
+  border-color: var(--butter);
+  box-shadow: var(--glow-full);
 }
 
 .button:active,
@@ -208,7 +310,7 @@ body {
 
 .button:focus-visible,
 .settings:focus-visible {
-  outline: 3px solid var(--tomato-deep);
+  outline: 2px solid var(--butter);
   outline-offset: 3px;
 }
 
@@ -228,6 +330,17 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .title {
+    animation: none;
+  }
+
+  /* animationend로 숫자를 교체하므로 애니메이션을 끄지 않고 즉시 끝낸다. */
+  .is-flipping .flap-top,
+  .is-flipping .flap-bottom {
+    animation-duration: 1ms;
+    animation-delay: 0ms;
+  }
+
   .button,
   .settings {
     transition: none;

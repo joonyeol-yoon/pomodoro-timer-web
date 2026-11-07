@@ -11,6 +11,42 @@
         ],
         "createdAt": "2026-11-06T09:33:09.491Z",
         "reason": "Claude triage: flagged .tomato has only absolutely positioned children; the text sits in the centered .dial, about 19px inside the hub at 1280px per screenshot"
+      },
+      {
+        "rule": "low-contrast",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-11-07T07:22:48.257Z",
+        "reason": "Claude triage: detector composites the translucent body radial-gradient over white (#fffbf2); actual text sits on #1f130b/#42291a/#372215 and computes 7.56:1 or higher"
+      },
+      {
+        "rule": "dark-glow",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-11-07T07:22:48.488Z",
+        "reason": "User requested a neon look in prompt.md; glow is the requested style"
+      },
+      {
+        "rule": "low-contrast",
+        "value": "*",
+        "files": [
+          "settings.html"
+        ],
+        "createdAt": "2026-11-07T07:22:48.696Z",
+        "reason": "Claude triage: detector composites the translucent body radial-gradient over white (#fffbf2); actual text sits on #1f130b/#42291a/#372215 and computes 7.56:1 or higher"
+      },
+      {
+        "rule": "dark-glow",
+        "value": "*",
+        "files": [
+          "settings.html"
+        ],
+        "createdAt": "2026-11-07T07:22:48.897Z",
+        "reason": "User requested a neon look in prompt.md; glow is the requested style"
       }
     ]
   }

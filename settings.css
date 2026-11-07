@@ -1,10 +1,18 @@
 :root {
-  --celadon: #e1ecd9;
-  --tomato-deep: #a82012;
-  --leaf: #2c6a3a;
-  --leaf-deep: #1f4f2a;
-  --paper: #fffaf0;
-  --ink: #1d3022;
+  color-scheme: dark;
+
+  --espresso: #1f130b;
+  --flap-top: #42291a;
+  --flap-bottom: #372215;
+  --hinge: #140b06;
+  --butter: #ffefa8;
+  --butter-soft: #d9c084;
+  --coral: #ff9d85;
+  --line: rgba(255, 239, 168, 0.32);
+
+  --glow-soft: 0 0 4px rgba(255, 226, 130, 0.45), 0 0 16px rgba(255, 205, 90, 0.2);
+  --glow-full: 0 0 4px rgba(255, 235, 160, 0.9), 0 0 14px rgba(255, 220, 120, 0.65),
+    0 0 36px rgba(255, 200, 80, 0.4);
 }
 
 * {
@@ -14,8 +22,10 @@
 
 body {
   min-height: 100svh;
-  background: var(--celadon);
-  color: var(--ink);
+  background:
+    radial-gradient(60% 45% at 50% 48%, rgba(255, 205, 110, 0.09), transparent 100%),
+    var(--espresso);
+  color: var(--butter);
   font-family: "IBM Plex Sans KR", system-ui, sans-serif;
 }
 
@@ -24,7 +34,7 @@ body {
   display: grid;
   grid-template-rows: auto 1fr auto;
   gap: 16px;
-  max-width: 720px;
+  max-width: 880px;
   min-height: 100svh;
   margin-inline: auto;
   padding: 20px 16px 32px;
@@ -32,18 +42,18 @@ body {
 
 .title {
   min-height: 44px;
-  font-family: "Bagel Fat One", system-ui, sans-serif;
+  font-family: "Tilt Neon", "IBM Plex Sans KR", sans-serif;
   font-size: clamp(2rem, 7vw, 2.75rem);
   font-weight: 400;
   line-height: 1;
-  color: var(--tomato-deep);
+  text-shadow: var(--glow-full);
 }
 
 .field {
   display: grid;
   align-content: center;
   justify-items: center;
-  gap: 16px;
+  gap: 20px;
 }
 
 .field-label {
@@ -56,19 +66,41 @@ body {
   position: relative;
 }
 
+/* 입력칸도 메인 화면의 카드처럼 가운데가 접힌 모양으로 둔다. */
+.field-input::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  margin-top: -1px;
+  background: var(--hinge);
+  pointer-events: none;
+}
+
 .minutes {
   display: block;
-  width: 2.4em;
-  /* 왼쪽 23px = 오른쪽 8px + 증감 화살표 자리 15px. 숫자를 칸 중앙에 맞춘다. */
-  padding: 12px 8px 12px 23px;
-  border: 2px solid var(--leaf);
-  border-radius: 24px;
-  background: var(--paper);
-  color: var(--ink);
-  font-family: "Bagel Fat One", system-ui, sans-serif;
-  font-size: clamp(3.5rem, 16vw, 5.5rem);
+  width: 1.5em;
+  padding: 12px 8px;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  background: linear-gradient(var(--flap-top) 50%, var(--flap-bottom) 50%);
+  color: var(--butter);
+  font-family: "Big Shoulders Display", "IBM Plex Sans KR", sans-serif;
+  font-size: clamp(5rem, 22vw, 8rem);
+  font-weight: 800;
   line-height: 1;
   text-align: center;
+  text-shadow: var(--glow-soft);
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.minutes::-webkit-inner-spin-button,
+.minutes::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .unit {
@@ -78,32 +110,33 @@ body {
   transform: translateY(-50%);
   font-size: 1.5rem;
   font-weight: 600;
+  color: var(--butter-soft);
 }
 
 .minutes:invalid {
-  border-color: var(--tomato-deep);
+  border-color: var(--coral);
 }
 
 .save {
   min-width: 124px;
   min-height: 52px;
   padding: 0 24px;
-  border: 2px solid var(--leaf);
+  border: 1.5px solid var(--butter);
   border-radius: 999px;
-  background: var(--leaf);
-  color: var(--paper);
+  background: var(--butter);
+  color: var(--espresso);
   font: inherit;
   font-size: 1.0625rem;
   font-weight: 600;
   cursor: pointer;
+  box-shadow: var(--glow-soft);
   transition:
-    background-color 120ms ease,
+    box-shadow 120ms ease,
     transform 80ms ease;
 }
 
 .save:hover:enabled {
-  border-color: var(--leaf-deep);
-  background: var(--leaf-deep);
+  box-shadow: var(--glow-full);
 }
 
 .save:active:enabled {
@@ -111,7 +144,10 @@ body {
 }
 
 .save:disabled {
-  opacity: 0.45;
+  border-color: var(--line);
+  background: transparent;
+  color: var(--butter-soft);
+  box-shadow: none;
   cursor: not-allowed;
 }
 
@@ -121,21 +157,21 @@ body {
   align-items: center;
   min-height: 52px;
   padding: 0 24px;
-  border: 2px solid var(--leaf);
+  border: 1.5px solid var(--line);
   border-radius: 999px;
-  color: var(--leaf-deep);
+  color: var(--butter);
   font-size: 1.0625rem;
   font-weight: 600;
   text-decoration: none;
   transition:
-    background-color 120ms ease,
-    color 120ms ease,
+    border-color 120ms ease,
+    box-shadow 120ms ease,
     transform 80ms ease;
 }
 
 .back:hover {
-  background: var(--leaf);
-  color: var(--paper);
+  border-color: var(--butter);
+  box-shadow: var(--glow-full);
 }
 
 .back:active {
@@ -145,7 +181,7 @@ body {
 .minutes:focus-visible,
 .save:focus-visible,
 .back:focus-visible {
-  outline: 3px solid var(--tomato-deep);
+  outline: 2px solid var(--butter);
   outline-offset: 3px;
 }
 
